@@ -5,12 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * ClassName: CORSFilter <br/>
- * Function: tomcat服务器提供的接口，不能在其他域中访问的时候，需要增 Access-Control-Allow-Origin:* . <br/>
- * Date: 2017年1月9日 下午2:48:31 <br/>
+ * ClassName: CORSFilter
+ * Function: tomcat服务器提供的接口，不能在其他域中访问的时候，需要增 Access-Control-Allow-Origin:* .
  *
- * @author kaiyun@zillionfortune.com
- * @since JDK 1.7
+ * @author f
+ * @since JDK 1.8
  */
 public class CORSFilter implements Filter {
 

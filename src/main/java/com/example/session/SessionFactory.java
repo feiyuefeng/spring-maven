@@ -32,7 +32,7 @@ public class SessionFactory {
      * @param userName
      */
     public static void setUserName(String userName){
-        logger.debug("set userName " + userName);
+        logger.info("session set userName:[{}]", userName);
         getRequest().getSession().setAttribute("userName", userName);
     }
 
@@ -43,10 +43,10 @@ public class SessionFactory {
     public static String getUserName(){
         Object userName = getRequest().getSession().getAttribute("userName");
         if(userName == null){
-            logger.debug("getUserName null");
+            logger.info("session get userName null");
             return "";
         }else{
-            logger.debug("getUserName = " + userName);
+            logger.info("session get userName:[{}]", userName);
             return userName.toString();
         }
     }

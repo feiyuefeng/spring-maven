@@ -3,6 +3,7 @@ package com.example.solr.server;
 import com.example.solr.vo.SolrResourceSearchVo;
 import com.example.solr.vo.SolrResourceVo;
 import com.example.solr.vo.SolrResultVo;
+import com.example.utils.SpringContextUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -181,10 +182,10 @@ public class SolrServer {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        SolrServer solr = new SolrServer();
-        SolrResourceSearchVo solrResourceSearchVo = new SolrResourceSearchVo();
-        solrResourceSearchVo.setPrice(3);
+//    public static void main(String[] args) throws Exception {
+//        SolrServer solr = new SolrServer();
+//        SolrResourceSearchVo solrResourceSearchVo = new SolrResourceSearchVo();
+//        solrResourceSearchVo.setPrice(3);
 //        SolrResourceVo solrResourceVo = new SolrResourceVo();
 //        solrResourceVo.setId(5L);
 //        solrResourceVo.setPrice(566.0);
@@ -194,6 +195,6 @@ public class SolrServer {
 //        //solr.createSolrServer();
 //        solr.addResource(solrResourceVo);
 //        solr.deleteDocumentById(4l);
-        solr.queryResourceSolr(solrResourceSearchVo);
-    }
+//        solr.queryResourceSolr(solrResourceSearchVo);
+//    }
 }

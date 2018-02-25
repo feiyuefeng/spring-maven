@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--启用spring的一些annotation -->
+    <context:annotation-config/>
+
+    <!-- 引入jdbc.properties属性文件 -->
+    <context:property-placeholder location="classpath:jdbc.properties" />
+    <!-- 自动扫描(自动注入)，扫描这个包以及它的子包的所有使用@Service注解标注的类 -->
+    <context:component-scan base-package="com.example.service" />
+    <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+    <context:component-scan base-package="com.example.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--HandlerMapping 无需配置，springmvc可以默认启动-->
+
+    <!--静态资源映射-->
+    <!--本项目把静态资源放在了WEB-INF的statics目录下，资源映射如下-->
+    <mvc:resources mapping="/css/**" location="/WEB-INF/static/css/"/>
+    <mvc:resources mapping="/js/**" location="/WEB-INF/static/js/"/>
+    <mvc:resources mapping="/image/**" location="/WEB-INF/static/image/"/>
+
+    <!--但是项目部署到linux下发现WEB-INF的静态资源会出现无法解析的情况，但是本地tomcat访问正常，因此建议还是直接把静态资源放在webapp的statics下，映射配置如下-->
+    <!--<mvc:resources mapping="/css/**" location="/statics/css/"/>-->
+    <!--<mvc:resources mapping="/js/**" location="/statics/js/"/>-->
+    <!--<mvc:resources mapping="/image/**" location="/statics/images/"/>-->
+
+    <!-- 配置注解驱动 可以将request参数与绑定到controller参数上 -->
+    <mvc:annotation-driven/>
+
+    <!--申明拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/resource/addResource"/>
+            <bean class="com.example.filter.RequestInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀(如果最后一个还是表示文件夹,则最后的斜杠不要漏了) 使用JSP-->
+    <!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
+    <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/views/"/><!--设置JSP文件的目录位置-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    <!-- springmvc文件上传需要配置的节点-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="20971500"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="resolveLazily" value="true"/>
+    </bean>
+
+    <!--redis配置-->
+    <!--<bean id="redisHttpSessionConfiguration"-->
+          <!--class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">-->
+        <!--<property name="maxInactiveIntervalInSeconds" value="600"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">-->
+        <!--<property name="maxTotal" value="100" />-->
+        <!--<property name="maxIdle" value="10" />-->
+    <!--</bean>-->
+
+    <!--<bean id="jedisConnectionFactory"-->
+          <!--class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">-->
+        <!--<property name="hostName" value="10.249.20.135"/>-->
+        <!--<property name="port" value="6379"/>-->
+        <!--<property name="password" value="" />-->
+        <!--<property name="timeout" value="3000"/>-->
+        <!--<property name="usePool" value="true"/>-->
+        <!--<property name="poolConfig" ref="jedisPoolConfig"/>-->
+    <!--</bean>-->
+</beans>
