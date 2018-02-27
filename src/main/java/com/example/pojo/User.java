@@ -2,20 +2,18 @@ package com.example.pojo;
 
 import java.util.Date;
 
-public class UserInfo {
+public class User {
     private Long id;
 
     private String username;
 
     private String password;
 
-    private String realName;
-
     private Date createTime;
 
     private Date updateTime;
 
-    private Byte isDelete;
+    private Integer isDelete;
 
     public Long getId() {
         return id;
@@ -41,14 +39,6 @@ public class UserInfo {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName == null ? null : realName.trim();
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -65,11 +55,11 @@ public class UserInfo {
         this.updateTime = updateTime;
     }
 
-    public Byte getIsDelete() {
+    public Integer getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Byte isDelete) {
+    public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
     }
 }

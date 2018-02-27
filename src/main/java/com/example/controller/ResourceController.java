@@ -40,7 +40,7 @@ public class ResourceController {
     @RequestMapping(value = "/addResource", method = RequestMethod.POST)
     public ResponseEntity<WebResult> addResource(@RequestBody ResourceDto resourceDto){
         Long resourceId = resourceService.addResource(resourceDto);
-        logger.info("add a resource :" + resourceId);
+        logger.info("add a resource : [{}]", resourceId);
         return new ResponseEntity<>(new WebResult(ResultStatus.SUCCESS, resourceId), HttpStatus.OK);
     }
 
@@ -50,10 +50,10 @@ public class ResourceController {
                Integer sort, Integer page, Integer pageSize){
         try{
             JSONObject jsonObject = resourceService.queryResourceBaseList(brokerId, areaFilter, priceFilter, roomFilter, sort, page, pageSize);
-            logger.info("query resources :");
+            logger.info("query resources : {}", jsonObject);
             return new ResponseEntity<>(new WebResult(ResultStatus.SUCCESS, getListResult(jsonObject)), HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warn("query resource error: {}", e.getMessage());
         }
         return new ResponseEntity<>(new WebResult(ResultStatus.FAILURE), HttpStatus.OK);
     }
@@ -66,7 +66,6 @@ public class ResourceController {
 //            logger.info("获取房源详情" + resourceInfo.getId() + "经纪人：" + brokerId);
             return new ResponseEntity<>(new WebResult(ResultStatus.SUCCESS, getDetailResult(resourceInfo)), HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
             logger.warn("查询房源详情失败", e.getMessage());
         }
         return new ResponseEntity<>(new WebResult(ResultStatus.FAILURE), HttpStatus.OK);
